@@ -147,52 +147,120 @@ public class PersonNode {
 
 
 PersonList.java
-public class PersonNode {
-   private String name;
-   private int age;
-   public PersonNode prevNode; // Reference to the previous node                                        
-   public PersonNode nextNode; // Reference to the next node                                            
+public class PersonList {
+   // Linked list nodes                                                                                  
+   public PersonNode headNode;
+   public PersonNode tailNode;
 
-   public PersonNode() {
-      name = "";
-      age = 0;
-      prevNode = null;
-      nextNode = null;
+   public PersonList() {
+      // Front of nodes list                                                                           
+      headNode = null;
+      tailNode = null;
    }
 
-   // Constructor                                                                                       
-   public PersonNode(String nameInit, int ageInit) {
-      this.name = nameInit;
-      this.age = ageInit;
-      this.prevNode = null;
-      this.nextNode = null;
+   // append                                                                                            
+   public void append(PersonNode newNode) {
+      if (headNode == null) { // List empty                                                            
+         headNode = newNode;
+         tailNode = newNode;
+      }
+      else {
+         tailNode.nextNode = newNode;
+         newNode.prevNode = tailNode;
+         tailNode = newNode;
+      }
    }
 
-   // Constructor                                                                                       
-   public PersonNode(String nameInit, int ageInit, PersonNode prevNode, PersonNode newNextNode) {
-      this.name = nameInit;
-      this.age = ageInit;
-      this.prevNode = prevNode;
-      this.nextNode = newNextNode;
+   // prepend                                                                                           
+   public void prepend(PersonNode newNode) {
+      if (headNode == null) { // list empty                                                            
+         headNode = newNode;
+         tailNode = newNode;
+      }
+      else {
+         newNode.nextNode = headNode;
+         headNode.prevNode = newNode;
+         headNode = newNode;
+      }
+   }
+   // insertAfter                                                                                       
+   public void insertAfter(PersonNode curNode, PersonNode newNode) {
+      PersonNode sucNode;
+      if (headNode == null) { // List empty                                                            
+         headNode = newNode;
+         tailNode = newNode;
+      }
+      else if (curNode == tailNode) { // Insert after tail                                             
+         tailNode.nextNode = newNode;
+         newNode.prevNode = tailNode;
+         tailNode = newNode;
+      }
+      else {
+         sucNode = curNode.nextNode;
+         newNode.nextNode = sucNode;
+         newNode.prevNode = curNode;
+         curNode.nextNode = newNode;
+         sucNode.prevNode = newNode;
+      }
    }
 
-   public String getName() {
-      return this.name;
+   // TODO: Write findFirst() method          
+   // Find the node with the first occurrence of the age                                      
+   // Start with the headNode and traverse forward                                                                      
+   public PersonNode findFirst(int ageValue) {
+      PersonNode curNode;
+      PersonNode foundFirst = null;
+      
+      if (headNode != null && headNode.getAge() == ageValue) {
+         foundFirst = headNode;
+      }
+      else {
+         curNode = headNode;
+         
+         while (curNode.nextNode != null && curNode.getAge() != ageValue) {
+            curNode = curNode.nextNode;
+         } 
+         if (curNode.getAge() == ageValue ) {
+            foundFirst = curNode;
+         }
+      }
+      return foundFirst;
+   
+   }  
+   
+   // TODO: Write findLast() method     
+   // Find the node with the last occurrence of the age                                       
+   // Start with the tailNode and traverse backward  
+   public PersonNode findLast(int ageValue) {
+      PersonNode curNode;
+      PersonNode foundLast = null;
+      
+      if (tailNode != null && tailNode.getAge() == ageValue) {
+         foundLast = tailNode;
+      }
+      else {
+         curNode = tailNode;
+         
+         while (curNode.prevNode != null && curNode.getAge() != ageValue) {
+            curNode = curNode.prevNode;
+         }
+         
+         if (curNode.getAge() == ageValue) {
+            foundLast = curNode;
+         }
+      } 
+      return foundLast;
+      
    }
 
-   public long getAge() {
-      return this.age;
-   }
 
-   public void setName(String userName) {
-      this.name = userName;
-   }
+   public void printPersonList() {
+      PersonNode curNode;
 
-   public void setAge(int userAge) {
-      this.age = userAge;
-   }
-
-   public void printNodeData() {
-      System.out.println(this.name + ", " + this.age);
+      curNode = headNode;
+      while (curNode != null) {
+         curNode.printNodeData();
+         curNode = curNode.nextNode;
+      }
    }
 }
