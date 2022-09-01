@@ -1,0 +1,198 @@
+/*
+Finding the first and last occurrence of a value (doubly-linked list)
+Given main() and a PeopleNode class, complete the PeopleList class by writing findFirst() and findLast() methods. The findFirst() method should find the first occurrence of an age value in the linked list and return the corresponding node. Similarly, the findLast() method should find the last occurrence of the age value in the linked list and return the corresponding node. For both methods, if the age value is not found, null should be returned. The program will replace the name value of each found node with a new name.
+
+Ex. If the input is
+
+Alex 23
+Tom 41
+Michelle 34
+Vicky 23
+-1
+23
+Connor
+34
+Michela
+the output is
+
+List before replacing:
+Alex, 23
+Tom, 41
+Michelle, 34
+Vicky, 23
+
+List after replacing the first occurrence of 23:
+Connor, 23
+Tom, 41
+Michelle, 34
+Vicky, 23
+
+List after replacing the last occurrence of 34:
+Connor, 23
+Tom, 41
+Michela, 34
+Vicky, 23
+*/
+
+FindOccurance.java
+import java.util.Scanner;
+
+public class FindOccurrence {
+   public static void main (String[] args) {
+      Scanner scnr = new Scanner(System.in);
+      PersonList personList = new PersonList();
+      PersonNode curNode;
+      PersonNode foundFirst;
+      PersonNode foundLast;
+      String name;
+      String replaceName;
+      int age;
+      int findAge;
+
+      name = scnr.next();
+
+      while (!name.equals("-1")) {
+         // Insert into linked list                                                                   
+         age = scnr.nextInt();
+         curNode = new PersonNode(name, age);
+         personList.append(curNode);
+         name = scnr.next();
+      }
+
+      System.out.println("List before replacing:");
+      personList.printPersonList();
+
+      foundFirst = new PersonNode();
+      findAge = scnr.nextInt();
+      foundFirst = personList.findFirst(findAge);
+      if (foundFirst != null) {
+         replaceName = scnr.next();
+         foundFirst.setName(replaceName);
+         System.out.println();
+         System.out.println("List after replacing the first occurrence of " + findAge + ":");
+         personList.printPersonList();
+      }
+      else {
+         System.out.println("Age value not found in the list.");
+      }
+      
+      foundLast = new PersonNode();
+      findAge = scnr.nextInt();
+      foundLast = personList.findLast(findAge);
+      if (foundLast != null) {
+         replaceName = scnr.next();
+         foundLast.setName(replaceName);
+         System.out.println();
+         System.out.println("List after replacing the last occurrence of " + findAge + ":");
+         personList.printPersonList();
+      }
+      else {
+         System.out.println("Age value not found in the list.");
+      }
+   }
+}
+
+
+
+PersonNode.jeve
+public class PersonNode {
+   private String name;
+   private int age;
+   public PersonNode prevNode; // Reference to the previous node                                        
+   public PersonNode nextNode; // Reference to the next node                                            
+
+   public PersonNode() {
+      name = "";
+      age = 0;
+      prevNode = null;
+      nextNode = null;
+   }
+
+   // Constructor                                                                                       
+   public PersonNode(String nameInit, int ageInit) {
+      this.name = nameInit;
+      this.age = ageInit;
+      this.prevNode = null;
+      this.nextNode = null;
+   }
+
+   // Constructor                                                                                       
+   public PersonNode(String nameInit, int ageInit, PersonNode prevNode, PersonNode newNextNode) {
+      this.name = nameInit;
+      this.age = ageInit;
+      this.prevNode = prevNode;
+      this.nextNode = newNextNode;
+   }
+
+   public String getName() {
+      return this.name;
+   }
+
+   public long getAge() {
+      return this.age;
+   }
+
+   public void setName(String userName) {
+      this.name = userName;
+   }
+
+   public void setAge(int userAge) {
+      this.age = userAge;
+   }
+
+   public void printNodeData() {
+      System.out.println(this.name + ", " + this.age);
+   }
+}
+
+
+PersonList.java
+public class PersonNode {
+   private String name;
+   private int age;
+   public PersonNode prevNode; // Reference to the previous node                                        
+   public PersonNode nextNode; // Reference to the next node                                            
+
+   public PersonNode() {
+      name = "";
+      age = 0;
+      prevNode = null;
+      nextNode = null;
+   }
+
+   // Constructor                                                                                       
+   public PersonNode(String nameInit, int ageInit) {
+      this.name = nameInit;
+      this.age = ageInit;
+      this.prevNode = null;
+      this.nextNode = null;
+   }
+
+   // Constructor                                                                                       
+   public PersonNode(String nameInit, int ageInit, PersonNode prevNode, PersonNode newNextNode) {
+      this.name = nameInit;
+      this.age = ageInit;
+      this.prevNode = prevNode;
+      this.nextNode = newNextNode;
+   }
+
+   public String getName() {
+      return this.name;
+   }
+
+   public long getAge() {
+      return this.age;
+   }
+
+   public void setName(String userName) {
+      this.name = userName;
+   }
+
+   public void setAge(int userAge) {
+      this.age = userAge;
+   }
+
+   public void printNodeData() {
+      System.out.println(this.name + ", " + this.age);
+   }
+}
